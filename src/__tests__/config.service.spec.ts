@@ -211,8 +211,9 @@ describe('Config Service', () => {
     }).compile();
 
     const config = module.get(createConfigToken('test'));
-    console.log(config);
+    expect(config).toBe('testing string');
     const configOb = module.get(createConfigToken('object'));
-    console.log(configOb);
+    expect(configOb).toBeInstanceOf(Object);
+    expect(configOb).toEqual({ key: 'testing object' });
   });
 });
