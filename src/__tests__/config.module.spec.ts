@@ -2,7 +2,7 @@ import { Test } from '@nestjs/testing';
 import * as path from 'path';
 import { ConfigModule, ConfigService } from '../index';
 import { Injectable } from '@nestjs/common';
-import { ConfigParam, Configurable } from '../decorators';
+import { ConfigParam, Configurable, InjectConfigService } from '../decorators';
 
 describe('Config Nest Module', () => {
   it('Will boot nest-config module succesfully', async () => {
@@ -327,5 +327,26 @@ describe('Config Nest Module', () => {
     const configService = module.get<ConfigService>(ConfigService);
 
     expect(configService.get('config.env').project).toBe('nest-config-prod');
+  });
+
+  it('Can inject with decorator', async () => {
+
+    @Injectable()
+    class TestClass {
+      constructor (@InjectConfigService() private readonly config: ConfigService) {}
+    }
+
+    const module = await Test.createTestingModule({
+      imports: [
+        ConfigModule.load(
+          path.resolve(__dirname, '__stubs__', '**/!(*.d).{ts,js}'),
+        ),
+      ],
+      providers: [TestClass],
+    }).compile();
+
+    const testClass = module.get(TestClass);
+
+    expect(testClass.config).toBeInstanceOf(ConfigService);
   });
 });

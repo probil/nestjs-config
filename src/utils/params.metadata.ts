@@ -1,4 +1,4 @@
-import { ConfigService } from "./module";
+import { ConfigService } from "./../module";
 
 export function applyParamsMetadataDecorator(
   paramsMetadata: any[],

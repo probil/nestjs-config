@@ -1,5 +1,7 @@
 import * as path from 'path';
-import { ConfigService } from '../module';
+import { ConfigService, ConfigModule } from '../module';
+import { Test } from '@nestjs/testing';
+import { createConfigToken } from '../utils';
 
 describe('Config Service', () => {
   describe('Will load configurations from given a glob', () => {
@@ -194,5 +196,23 @@ describe('Config Service', () => {
       ConfigService.resolveRootPath(startPath);
       expect(ConfigService.root('config')).toEqual(expectedPath);
     });
+  });
+
+  describe('Version 2 forRoot', async () => {
+    const module = await Test.createTestingModule({
+      imports: [
+        ConfigModule.forRoot({
+          test: 'testing string',
+          object: {
+            key: 'testing object',
+          },
+        }),
+      ],
+    }).compile();
+
+    const config = module.get(createConfigToken('test'));
+    console.log(config);
+    const configOb = module.get(createConfigToken('object'));
+    console.log(configOb);
   });
 });

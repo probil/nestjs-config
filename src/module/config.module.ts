@@ -1,5 +1,7 @@
-import { DynamicModule, Module, Global } from '@nestjs/common';
+import { DynamicModule, Module, Global, Provider } from '@nestjs/common';
 import { ConfigService, ConfigOptions } from './config.service';
+
+type Config = {[s: string]: any | Config};
 
 @Global()
 @Module({})
@@ -26,6 +28,29 @@ export class ConfigModule {
       module: ConfigModule,
       providers: [configProvider],
       exports: [configProvider],
+    };
+  }
+
+  public static forRoot(configs: Config): DynamicModule {
+    const providers: Provider[] = [];
+
+    for (let key in configs) {
+      providers.push({
+        provide: `CONFIG_${key}`,
+        useValue: configs[key],
+      });
+    }
+
+    return {
+      module: ConfigModule,
+      providers: providers,
+    };
+  }
+
+  public static forRootAsync(): DynamicModule {
+    return {
+      module: ConfigModule,
+      //providers: providers,
     };
   }
 }
