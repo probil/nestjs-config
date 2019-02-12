@@ -181,7 +181,9 @@ describe('Config Service', () => {
     });
 
     it('Will resolve root with param', () => {
-      expect(ConfigService.root('config')).toEqual(path.join(__dirname, 'config'));
+      expect(ConfigService.root('config')).toEqual(
+        path.join(__dirname, 'config'),
+      );
     });
 
     it('Will resolve root', () => {

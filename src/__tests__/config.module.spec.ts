@@ -330,10 +330,11 @@ describe('Config Nest Module', () => {
   });
 
   it('Can inject with decorator', async () => {
-
     @Injectable()
     class TestClass {
-      constructor (@InjectConfigService() private readonly config: ConfigService) {}
+      constructor(
+        @InjectConfigService() private readonly config: ConfigService,
+      ) {}
     }
 
     const module = await Test.createTestingModule({

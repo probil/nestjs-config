@@ -1,7 +1,7 @@
 import { DynamicModule, Module, Global, Provider } from '@nestjs/common';
 import { ConfigService, ConfigOptions } from './config.service';
 
-type Config = {[s: string]: any | Config};
+type Config = { [s: string]: any | Config };
 
 @Global()
 @Module({})
@@ -48,6 +48,7 @@ export class ConfigModule {
   }
 
   public static forRootAsync(): DynamicModule {
+    // TODO use glob to find files and load
     return {
       module: ConfigModule,
       //providers: providers,

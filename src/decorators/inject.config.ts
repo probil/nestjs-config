@@ -1,4 +1,5 @@
 import { Inject } from '@nestjs/common';
 import { createConfigToken } from './../utils';
 
-export const InjectConfigService = (key: string) => Inject(createConfigToken(key));
+export const InjectConfigService = (key: string) =>
+  Inject(createConfigToken(key));
